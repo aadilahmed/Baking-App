@@ -8,6 +8,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.aadil.bakingapp.model.Recipe;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
     private ArrayList<JSONObject> recipes = new ArrayList<>();
+    private ArrayList<Recipe> recipeList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             try {
                 recipes = NetworkUtils.parseRecipeJson(s);
-                mAdapter = new RecipeAdapter(recipes);
+                recipeList = Recipe.toRecipe(recipes);
+                mAdapter = new RecipeAdapter(recipeList);
                 mRecyclerView.setAdapter(mAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();

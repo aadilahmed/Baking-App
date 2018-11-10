@@ -1,15 +1,17 @@
 package com.example.aadil.bakingapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.bumptech.glide.Glide;
+import com.example.aadil.bakingapp.model.Recipe;
 
 import java.util.ArrayList;
 
@@ -17,14 +19,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder>{
-    private ArrayList<JSONObject> recipeList;
+    private ArrayList<Recipe> recipeList;
+    private Context context;
 
-    public RecipeAdapter(ArrayList<JSONObject> mRecipeList) {
+    public RecipeAdapter(ArrayList<Recipe> mRecipeList) {
         recipeList = mRecipeList;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.recipe_name) TextView mTextView;
+        @BindView(R.id.recipe_pic) ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -35,7 +39,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     @NonNull
     @Override
     public RecipeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        CardView recipeItem = (CardView) LayoutInflater.from(viewGroup.getContext())
+        context = viewGroup.getContext();
+        View recipeItem = LayoutInflater.from(context)
                 .inflate(R.layout.recipe_item, viewGroup, false);
 
         return new RecipeAdapter.ViewHolder(recipeItem);
@@ -43,13 +48,37 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RecipeAdapter.ViewHolder viewHolder, int position) {
+        final Recipe recipe = recipeList.get(position);
         String recipeTitle;
-        try {
-            recipeTitle = recipeList.get(position).getString("name");
-            viewHolder.mTextView.setText(recipeTitle);
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+        if(position == 0) {
+            Glide.with(context).load(R.drawable.no_bake_4_ingredient_nutella_cheesecake_pie_28311)
+                    .into(viewHolder.imageView);
         }
+        else if(position == 1) {
+            Glide.with(context).load(R.drawable.chocolate_beetroot_brownies)
+                    .into(viewHolder.imageView);
+        }
+        else if(position == 2) {
+            Glide.with(context).load(R.drawable.yellow_cake)
+                    .into(viewHolder.imageView);
+        }
+        else {
+            Glide.with(context).load(R.drawable.finished_product_cheesecake)
+                    .into(viewHolder.imageView);
+        }
+
+        recipeTitle = recipe.getName();
+        viewHolder.mTextView.setText(recipeTitle);
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("recipe", recipe);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
