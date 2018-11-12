@@ -53,8 +53,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         ingredientName = ingredient.getIngredient();
 
         viewHolder.mTextView.setText(quantity);
-        viewHolder.mTextView.append(" " + measure);
-        viewHolder.mTextView.append(" " + ingredientName);
+        viewHolder.mTextView.append(" " + measure.toLowerCase());
+        viewHolder.mTextView.append(" " + ingredientName.toLowerCase());
     }
 
     @Override

@@ -52,7 +52,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         String recipeTitle;
 
         if(position == 0) {
-            Glide.with(context).load(R.drawable.no_bake_4_ingredient_nutella_cheesecake_pie_28311)
+            Glide.with(context).load(R.drawable.no_bake_nutella_pie_text1)
                     .into(viewHolder.imageView);
         }
         else if(position == 1) {

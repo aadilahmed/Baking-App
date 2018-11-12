@@ -6,8 +6,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.aadil.bakingapp.model.Ingredient;
 import com.example.aadil.bakingapp.model.Recipe;
 import com.example.aadil.bakingapp.model.Step;
@@ -15,6 +17,8 @@ import com.example.aadil.bakingapp.model.Step;
 import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
+    private String name;
+    private ImageView recipeBackdropIv;
     private ArrayList<Ingredient> ingredients;
     private RecyclerView mIngredientRV;
     private RecyclerView.Adapter mAdapter;
@@ -36,6 +40,27 @@ public class DetailActivity extends AppCompatActivity {
         Recipe recipe = bundle.getParcelable("recipe");
 
         ingredients = recipe.getIngredients();
+
+        name = recipe.getName();
+
+        recipeBackdropIv = findViewById(R.id.recipe_backdrop);
+
+        if(name.equals("Nutella Pie")) {
+            Glide.with(this).load(R.drawable.no_bake_nutella_pie_text1)
+                    .into(recipeBackdropIv);
+        }
+        else if(name.equals("Brownies")) {
+            Glide.with(this).load(R.drawable.chocolate_beetroot_brownies)
+                    .into(recipeBackdropIv);
+        }
+        else if(name.equals("Yellow Cake")) {
+            Glide.with(this).load(R.drawable.yellow_cake)
+                    .into(recipeBackdropIv);
+        }
+        else {
+            Glide.with(this).load(R.drawable.finished_product_cheesecake)
+                    .into(recipeBackdropIv);
+        }
 
         mIngredientRV = findViewById(R.id.rv_ingredient_list);
         mIngredientRV.setHasFixedSize(true);
