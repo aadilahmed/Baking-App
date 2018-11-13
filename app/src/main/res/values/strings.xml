@@ -2,4 +2,6 @@
     <string name="app_name">Recipes</string>
     <string name="ingredient_title">INGREDIENTS</string>
     <string name="steps_title">STEPS</string>
+    <string name="next_button">Next</string>
+    <string name="previous_button">Previous</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.aadil.bakingapp;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -30,6 +31,7 @@ public class DetailActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mStepLayoutManager;
 
     private RecyclerView.ItemDecoration mStepDividerItemDecoration;
+    private Boolean isDualPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,9 @@ public class DetailActivity extends AppCompatActivity {
 
 
         /*-----------------------------------------------------------------*/
+        RecipeStepFragment stepFragment = new RecipeStepFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         steps = recipe.getSteps();
 
         mStepRV = findViewById(R.id.rv_step_list);
@@ -81,7 +86,7 @@ public class DetailActivity extends AppCompatActivity {
         mStepLayoutManager = new LinearLayoutManager(this);
         mStepRV.setLayoutManager(mStepLayoutManager);
 
-        mStepAdapter = new StepAdapter(steps);
+        mStepAdapter = new StepAdapter(steps, stepFragment, fragmentManager);
         mStepRV.setAdapter(mStepAdapter);
 
         mStepDividerItemDecoration = new DividerItemDecoration(mStepRV.getContext(),
