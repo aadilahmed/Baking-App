@@ -17,7 +17,7 @@ import com.example.aadil.bakingapp.model.Step;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity{
     private String name;
     private ImageView recipeBackdropIv;
     private ArrayList<Ingredient> ingredients;
@@ -31,14 +31,24 @@ public class DetailActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mStepLayoutManager;
 
     private RecyclerView.ItemDecoration mStepDividerItemDecoration;
-    private Boolean isDualPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        Bundle bundle = getIntent().getExtras();
+        if (savedInstanceState == null) {
+            MasterListFragment masterList = new MasterListFragment();
+
+            Bundle bundle = getIntent().getExtras();
+            masterList.setArguments(bundle);
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.master_list_fragment, masterList)
+                    .commit();
+        }
+
+        /*Bundle bundle = getIntent().getExtras();
         Recipe recipe = bundle.getParcelable("recipe");
 
         ingredients = recipe.getIngredients();
@@ -73,24 +83,29 @@ public class DetailActivity extends AppCompatActivity {
         mAdapter = new IngredientAdapter(ingredients);
         mIngredientRV.setAdapter(mAdapter);
 
-
         /*-----------------------------------------------------------------*/
-        RecipeStepFragment stepFragment = new RecipeStepFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        steps = recipe.getSteps();
+        /*steps = recipe.getSteps();
 
         mStepRV = findViewById(R.id.rv_step_list);
         mStepRV.setHasFixedSize(true);
 
         mStepLayoutManager = new LinearLayoutManager(this);
-        mStepRV.setLayoutManager(mStepLayoutManager);
+        mStepRV.setLayoutManager(mStepLayoutManager);*/
+
+        /*-----------------------------------------------------------------*/
+        /*RecipeStepFragment stepFragment = new RecipeStepFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .add(R.id.step_video_container, stepFragment)
+                .commit();
 
         mStepAdapter = new StepAdapter(steps, stepFragment, fragmentManager);
+
         mStepRV.setAdapter(mStepAdapter);
 
         mStepDividerItemDecoration = new DividerItemDecoration(mStepRV.getContext(),
                 DividerItemDecoration.VERTICAL);
-        mStepRV.addItemDecoration(mStepDividerItemDecoration);
+        mStepRV.addItemDecoration(mStepDividerItemDecoration);*/
     }
 }

@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.rv_recipe_list);
 
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager = new GridLayoutManager(this, this.getResources().getInteger(R.integer.numColumns));
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         new RecipeQueryTask().execute();

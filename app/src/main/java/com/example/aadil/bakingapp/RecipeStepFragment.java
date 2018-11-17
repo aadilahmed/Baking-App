@@ -24,7 +24,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
 import java.util.ArrayList;
 
-public class RecipeStepFragment extends Fragment {
+public class RecipeStepFragment extends Fragment{
     private String mediaUrl;
     private String stepDetail;
     private TextView stepDescriptionTv;
@@ -67,7 +67,7 @@ public class RecipeStepFragment extends Fragment {
 
     private MediaSource buildMediaSource(Uri uri) {
         return new ExtractorMediaSource.Factory(
-                new DefaultHttpDataSourceFactory("")).
+                new DefaultHttpDataSourceFactory("exoplayer-codelab")).
                 createMediaSource(uri);
     }
 

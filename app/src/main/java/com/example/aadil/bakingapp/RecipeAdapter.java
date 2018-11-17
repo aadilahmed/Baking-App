@@ -2,6 +2,7 @@ package com.example.aadil.bakingapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,11 +72,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         recipeTitle = recipe.getName();
         viewHolder.mTextView.setText(recipeTitle);
 
+        final Bundle bundle = new Bundle();
+
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("recipe", recipe);
+                bundle.putParcelable("recipe", recipe);
                 context.startActivity(intent);
             }
         });
