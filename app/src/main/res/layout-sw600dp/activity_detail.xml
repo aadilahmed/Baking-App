@@ -1,89 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        tools:context=".DetailActivity">
-
-        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/recipe_backdrop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
-
-            <TextView
-                android:id="@+id/ingredient_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="@string/ingredient_title"
-                android:textColor="@color/text_color"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_backdrop" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_ingredient_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/steps_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ingredient_title" />
-
-            <TextView
-                android:id="@+id/steps_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/steps_title"
-                android:textColor="@color/text_color"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/rv_step_list"
-                app:layout_constraintTop_toBottomOf="@+id/rv_ingredient_list" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_step_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/steps_title"
-                />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
     <FrameLayout
-        android:id="@+id/step_video_container"
         android:layout_width="400dp"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:id="@+id/master_list_fragment"
+        android:name="com.example.aadil.bakingapp.MasterListFragment">
     </FrameLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/text_color" />
+
+    <FrameLayout
+        android:id="@+id/step_detail_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.example.aadil.bakingapp.StepDetailFragment"/>
+
+
 </LinearLayout >

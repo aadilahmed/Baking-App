@@ -24,9 +24,8 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
 import java.util.ArrayList;
 
-public class RecipeStepFragment extends Fragment{
+public class StepDetailFragment extends Fragment{
     private String mediaUrl;
-    private String stepDetail;
     private TextView stepDescriptionTv;
     private SimpleExoPlayer simpleExoPlayer;
     private SimpleExoPlayerView mPlayerView;
@@ -35,10 +34,9 @@ public class RecipeStepFragment extends Fragment{
     private long position = 0;
     private Button nextButton;
     private Button prevButton;
-    private ArrayList<Step> stepList;
     private int i;
 
-    public RecipeStepFragment() {}
+    public StepDetailFragment() {}
 
     @Nullable
     @Override
@@ -49,18 +47,22 @@ public class RecipeStepFragment extends Fragment{
         nextButton = rootView.findViewById(R.id.next_button);
         prevButton = rootView.findViewById(R.id.previous_button);
 
-        Step step = getArguments().getParcelable("step");
+        Bundle bundle = getArguments();
 
-        stepDescriptionTv.setText(step.getDescription());
+        if(bundle != null) {
+            Step step = bundle.getParcelable("step");
 
-        mediaUrl = step.getVideoURL();
+            stepDescriptionTv.setText(step.getDescription());
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            mediaUrl = step.getVideoURL();
 
-            }
-        });
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+        }
 
         return rootView;
     }

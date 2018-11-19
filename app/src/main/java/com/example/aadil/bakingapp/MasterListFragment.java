@@ -34,8 +34,9 @@ public class MasterListFragment extends Fragment{
 
     private RecyclerView.ItemDecoration mStepDividerItemDecoration;
 
-    public MasterListFragment() {
+    private Boolean mTwoPane;
 
+    public MasterListFragment() {
     }
 
     @Nullable
@@ -46,6 +47,7 @@ public class MasterListFragment extends Fragment{
         Bundle bundle = getArguments();
 
         if(bundle != null) {
+            mTwoPane = bundle.getBoolean("mTwoPane");
             Recipe recipe = bundle.getParcelable("recipe");
 
             ingredients = recipe.getIngredients();
@@ -89,7 +91,7 @@ public class MasterListFragment extends Fragment{
             mStepLayoutManager = new LinearLayoutManager(getContext());
             mStepRV.setLayoutManager(mStepLayoutManager);
 
-            mStepAdapter = new StepAdapter(steps);
+            mStepAdapter = new StepAdapter(steps, mTwoPane);
 
             mStepRV.setAdapter(mStepAdapter);
 
