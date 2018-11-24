@@ -1,5 +1,8 @@
 package com.example.aadil.bakingapp;
 
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -8,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -74,8 +78,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                RemoteViews views = new RemoteViews(context.getPackageName(),
+                        R.layout.recipe_widget_provider);
+
                 Intent intent = new Intent(context, DetailActivity.class);
+                intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
                 intent.putExtra("recipe", recipe);
+
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+                views.setOnClickPendingIntent(R.id.recipe_widget_icon, pendingIntent);
+                ComponentName thisWidget = new ComponentName(context, RecipeWidgetProvider.class);
+                appWidgetManager.updateAppWidget(thisWidget, views);
                 context.startActivity(intent);
             }
         });

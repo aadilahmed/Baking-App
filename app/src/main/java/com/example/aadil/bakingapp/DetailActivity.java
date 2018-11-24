@@ -2,6 +2,8 @@ package com.example.aadil.bakingapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 public class DetailActivity extends AppCompatActivity{
     private Boolean mTwoPane = false;
@@ -14,7 +16,13 @@ public class DetailActivity extends AppCompatActivity{
         if(findViewById(R.id.step_detail_fragment) != null) {
             mTwoPane = true;
 
-            /*if(savedInstanceState != null) {
+            /*Button nextButton = findViewById(R.id.next_button);
+            nextButton.setVisibility(View.GONE);
+
+            Button prevButton = findViewById(R.id.previous_button);
+            prevButton.setVisibility(View.GONE);*/
+
+            if(savedInstanceState != null) {
                 StepDetailFragment stepFragment = new StepDetailFragment();
 
                 Bundle bundle = getIntent().getExtras();
@@ -23,7 +31,7 @@ public class DetailActivity extends AppCompatActivity{
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.step_detail_fragment, stepFragment)
                         .commit();
-            }*/
+            }
         }
         else {
             mTwoPane = false;

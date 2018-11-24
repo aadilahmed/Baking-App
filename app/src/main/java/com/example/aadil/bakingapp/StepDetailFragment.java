@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
 import java.util.ArrayList;
 
+
 public class StepDetailFragment extends Fragment{
     private String mediaUrl;
     private TextView stepDescriptionTv;
@@ -42,6 +44,7 @@ public class StepDetailFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
+
         stepDescriptionTv = rootView.findViewById(R.id.step_description_tv);
         mPlayerView = rootView.findViewById(R.id.step_player_view);
         nextButton = rootView.findViewById(R.id.next_button);
@@ -52,16 +55,60 @@ public class StepDetailFragment extends Fragment{
         if(bundle != null) {
             Step step = bundle.getParcelable("step");
 
-            stepDescriptionTv.setText(step.getDescription());
+            ArrayList<Step> stepList = bundle.getParcelableArrayList("stepList");
+
+            int position = bundle.getInt("position");
 
             mediaUrl = step.getVideoURL();
+            stepDescriptionTv.setText(step.getDescription());
 
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            int next = position++;
+            int prev = position;
 
-                }
-            });
+            if(position > 0) {
+                prev = --position;
+            }
+
+            if(stepList != null) {
+                final Step nextStep = stepList.get(next);
+
+                final Step prevStep = stepList.get(prev);
+
+                final Bundle newBundle = new Bundle();
+
+                nextButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        StepDetailFragment newFragment = new StepDetailFragment();
+
+                        newBundle.putParcelable("step", nextStep);
+
+                        newFragment.setArguments(newBundle);
+
+                        ((StepDetailActivity) getContext()).getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.step_detail_fragment, newFragment)
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
+
+                prevButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        StepDetailFragment newFragment = new StepDetailFragment();
+
+                        newBundle.putParcelable("step", prevStep);
+
+                        newFragment.setArguments(newBundle);
+
+                        ((StepDetailActivity) getContext()).getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.step_detail_fragment, newFragment)
+                                .addToBackStack(null)
+                                .commit();
+
+                    }
+                });
+            }
         }
 
         return rootView;

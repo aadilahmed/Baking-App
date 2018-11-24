@@ -1,6 +1,7 @@
 package com.example.aadil.bakingapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +27,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder>{
         this.twoPane = mTwoPane;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.step_description_tv)
         TextView mTextView;
 
@@ -47,22 +48,26 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final StepAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final StepAdapter.ViewHolder viewHolder, final int i) {
         final Step step = stepList.get(i);
 
         String shortDescription = step.getShortDescription();
 
         viewHolder.mTextView.setText(shortDescription);
 
-        final Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();
+
+        bundle.putParcelable("step", step);
+        bundle.putParcelableArrayList("stepList", stepList);
+        bundle.putInt("position", i);
+
+        final StepDetailFragment stepFragment = new StepDetailFragment();
+
+        stepFragment.setArguments(bundle);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bundle.putParcelable("step", step);
-                StepDetailFragment stepFragment = new StepDetailFragment();
-
-                stepFragment.setArguments(bundle);
 
                 if(twoPane) {
                     ((DetailActivity) context).getSupportFragmentManager().beginTransaction()
@@ -71,10 +76,11 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder>{
                             .commit();
                 }
                 else{
-                    ((DetailActivity) context).getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.master_list_fragment, stepFragment)
-                            .addToBackStack(null)
-                            .commit();
+                    Intent intent = new Intent(context, StepDetailActivity.class);
+                    intent.putExtra("step", step);
+                    intent.putExtra("stepList", stepList);
+                    intent.putExtra("position", i);
+                    context.startActivity(intent);
                 }
             }
         });
