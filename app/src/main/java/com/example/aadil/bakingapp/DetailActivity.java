@@ -16,11 +16,11 @@ public class DetailActivity extends AppCompatActivity{
         if(findViewById(R.id.step_detail_fragment) != null) {
             mTwoPane = true;
 
-            /*Button nextButton = findViewById(R.id.next_button);
+            Button nextButton = findViewById(R.id.next_button);
             nextButton.setVisibility(View.GONE);
 
             Button prevButton = findViewById(R.id.previous_button);
-            prevButton.setVisibility(View.GONE);*/
+            prevButton.setVisibility(View.GONE);
 
             if(savedInstanceState != null) {
                 StepDetailFragment stepFragment = new StepDetailFragment();
@@ -41,12 +41,14 @@ public class DetailActivity extends AppCompatActivity{
             MasterListFragment masterList = new MasterListFragment();
 
             Bundle bundle = getIntent().getExtras();
-            bundle.putBoolean("mTwoPane", mTwoPane);
-            masterList.setArguments(bundle);
+            if(bundle != null) {
+                bundle.putBoolean("mTwoPane", mTwoPane);
+                masterList.setArguments(bundle);
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.master_list_fragment, masterList)
-                    .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.master_list_fragment, masterList)
+                        .commit();
+            }
         }
     }
 }

@@ -40,6 +40,16 @@ public class StepDetailFragment extends Fragment{
 
     public StepDetailFragment() {}
 
+    public static StepDetailFragment newInstance(int position) {
+        StepDetailFragment stepFragment = new StepDetailFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        stepFragment.setArguments(bundle);
+
+        return stepFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,35 +63,47 @@ public class StepDetailFragment extends Fragment{
         Bundle bundle = getArguments();
 
         if(bundle != null) {
-            Step step = bundle.getParcelable("step");
+            final Step step = bundle.getParcelable("step");
+            final Step nextStep = bundle.getParcelable("nextStep");
+            final Step prevStep = bundle.getParcelable("prevStep");
+            final ArrayList<Step> stepList = bundle.getParcelableArrayList("stepList");
+            final int position = bundle.getInt("position");
+            int x;
+            int y;
 
-            ArrayList<Step> stepList = bundle.getParcelableArrayList("stepList");
+            if(position < stepList.size() - 2) {
+                x = bundle.getInt("position") + 2;
+            }
+            else {
+                x = 0;
+            }
 
-            int position = bundle.getInt("position");
+            final int nextPosition = x;
+
+            if(position > 2) {
+                y = bundle.getInt("position") - 2;
+            }
+            else {
+                y = position;
+            }
+
+            final int prevPosition = y;
 
             mediaUrl = step.getVideoURL();
             stepDescriptionTv.setText(step.getDescription());
 
-            int next = position++;
-            int prev = position;
+            final Bundle newBundle = new Bundle();
 
-            if(position > 0) {
-                prev = --position;
-            }
+            final StepDetailFragment newFragment = new StepDetailFragment();
 
-            if(stepList != null) {
-                final Step nextStep = stepList.get(next);
-
-                final Step prevStep = stepList.get(prev);
-
-                final Bundle newBundle = new Bundle();
-
-                nextButton.setOnClickListener(new View.OnClickListener() {
+            nextButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        StepDetailFragment newFragment = new StepDetailFragment();
-
                         newBundle.putParcelable("step", nextStep);
+                        newBundle.putParcelable("nextStep", stepList.get(nextPosition));
+                        newBundle.putParcelable("prevStep", step);
+                        newBundle.putParcelableArrayList("stepList", stepList);
+                        newBundle.putInt("position", position + 1);
 
                         newFragment.setArguments(newBundle);
 
@@ -90,14 +112,16 @@ public class StepDetailFragment extends Fragment{
                                 .addToBackStack(null)
                                 .commit();
                     }
-                });
+            });
 
-                prevButton.setOnClickListener(new View.OnClickListener() {
+            prevButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        StepDetailFragment newFragment = new StepDetailFragment();
-
                         newBundle.putParcelable("step", prevStep);
+                        newBundle.putParcelable("nextStep", step);
+                        newBundle.putParcelable("prevStep", stepList.get(prevPosition));
+                        newBundle.putParcelableArrayList("stepList", stepList);
+                        newBundle.putInt("position", position - 1);
 
                         newFragment.setArguments(newBundle);
 
@@ -105,11 +129,9 @@ public class StepDetailFragment extends Fragment{
                                 .replace(R.id.step_detail_fragment, newFragment)
                                 .addToBackStack(null)
                                 .commit();
-
                     }
                 });
             }
-        }
 
         return rootView;
     }

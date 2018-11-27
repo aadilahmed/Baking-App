@@ -18,14 +18,17 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String RECIPE_URL =
             "https://d17h27t6h515a5.cloudfront.net";
     private static final String JSON_PATH = "topher/2017/May/59121517_baking/baking.json";
-    private static final String NO_CONNECTION_TOAST = "No network connectivity. Please connect to the internet"
-            + " and restart the app.";
-    private RecyclerView mRecyclerView;
+    private static final String NO_CONNECTION_TOAST = "No network connectivity. Please connect to the"
+            + " internet and restart the app.";
+    @BindView(R.id.rv_recipe_list) RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
     private ArrayList<JSONObject> recipes = new ArrayList<>();
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = findViewById(R.id.rv_recipe_list);
+        ButterKnife.bind(this);
 
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(this, this.getResources().getInteger(R.integer.numColumns));

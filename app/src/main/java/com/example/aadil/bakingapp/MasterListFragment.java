@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.aadil.bakingapp.model.Ingredient;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 
 public class MasterListFragment extends Fragment{
     private String name;
+    private TextView recipeTitleTv;
     private ImageView recipeBackdropIv;
     private ArrayList<Ingredient> ingredients;
     private RecyclerView mIngredientRV;
@@ -56,22 +58,28 @@ public class MasterListFragment extends Fragment{
 
             recipeBackdropIv = rootView.findViewById(R.id.recipe_backdrop);
 
-            if(name.equals("Nutella Pie")) {
-                Glide.with(this).load(R.drawable.no_bake_nutella_pie_text1)
-                        .into(recipeBackdropIv);
+            switch(name) {
+                case "Nutella Pie":
+                    Glide.with(this).load(R.drawable.no_bake_nutella_pie_text1)
+                            .into(recipeBackdropIv);
+                    break;
+                case "Brownies":
+                    Glide.with(this).load(R.drawable.chocolate_beetroot_brownies)
+                            .into(recipeBackdropIv);
+                    break;
+                case "Yellow Cake":
+                    Glide.with(this).load(R.drawable.yellow_cake)
+                            .into(recipeBackdropIv);
+                    break;
+                case "Cheesecake":
+                    Glide.with(this).load(R.drawable.finished_product_cheesecake)
+                            .into(recipeBackdropIv);
+                default:
+                    break;
             }
-            else if(name.equals("Brownies")) {
-                Glide.with(this).load(R.drawable.chocolate_beetroot_brownies)
-                        .into(recipeBackdropIv);
-            }
-            else if(name.equals("Yellow Cake")) {
-                Glide.with(this).load(R.drawable.yellow_cake)
-                        .into(recipeBackdropIv);
-            }
-            else {
-                Glide.with(this).load(R.drawable.finished_product_cheesecake)
-                        .into(recipeBackdropIv);
-            }
+
+            recipeTitleTv = rootView.findViewById(R.id.recipe_detail_title);
+            recipeTitleTv.setText(name);
 
             mIngredientRV = rootView.findViewById(R.id.rv_ingredient_list);
             mIngredientRV.setHasFixedSize(true);

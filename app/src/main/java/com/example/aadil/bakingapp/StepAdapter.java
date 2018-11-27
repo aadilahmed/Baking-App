@@ -50,6 +50,25 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull final StepAdapter.ViewHolder viewHolder, final int i) {
         final Step step = stepList.get(i);
+        final Step nextStep;
+        final Step prevStep;
+
+        int next = i + 1;
+        int prev = i - 1;
+
+        if(next < stepList.size()) {
+            nextStep = stepList.get(next);
+        }
+        else {
+            nextStep = stepList.get(i);
+        }
+
+        if(prev > 0) {
+            prevStep = stepList.get(prev);
+        }
+        else {
+            prevStep = stepList.get(i);
+        }
 
         String shortDescription = step.getShortDescription();
 
@@ -58,6 +77,8 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder>{
         Bundle bundle = new Bundle();
 
         bundle.putParcelable("step", step);
+        bundle.putParcelable("nextStep", nextStep);
+        bundle.putParcelable("prevStep", prevStep);
         bundle.putParcelableArrayList("stepList", stepList);
         bundle.putInt("position", i);
 
@@ -68,7 +89,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder>{
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(twoPane) {
                     ((DetailActivity) context).getSupportFragmentManager().beginTransaction()
                             .replace(R.id.step_detail_fragment, stepFragment)
@@ -78,7 +98,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder>{
                 else{
                     Intent intent = new Intent(context, StepDetailActivity.class);
                     intent.putExtra("step", step);
-                    intent.putExtra("stepList", stepList);
+                    intent.putExtra("nextStep", nextStep);
+                    intent.putExtra("prevStep", prevStep);
+                    intent.putParcelableArrayListExtra("stepList", stepList);
                     intent.putExtra("position", i);
                     context.startActivity(intent);
                 }

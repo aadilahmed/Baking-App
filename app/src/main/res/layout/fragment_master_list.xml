@@ -15,7 +15,18 @@
             android:id="@+id/recipe_backdrop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/recipe_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/recipe_backdrop"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="@dimen/recipe_detail_title_size"
+            android:textColor="@color/text_color"
+            app:fontFamily="serif"
+            />
 
         <TextView
             android:id="@+id/ingredient_title"
