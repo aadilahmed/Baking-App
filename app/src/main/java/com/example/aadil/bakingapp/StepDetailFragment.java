@@ -25,17 +25,20 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class StepDetailFragment extends Fragment{
     private String mediaUrl;
-    private TextView stepDescriptionTv;
+    @BindView(R.id.step_description_tv) TextView stepDescriptionTv;
     private SimpleExoPlayer simpleExoPlayer;
-    private SimpleExoPlayerView mPlayerView;
+    @BindView(R.id.step_player_view) SimpleExoPlayerView mPlayerView;
     private Boolean playWhenReady = true;
     private int currentWindow = 0;
     private long position = 0;
-    private Button nextButton;
-    private Button prevButton;
+    @BindView(R.id.next_button) Button nextButton;
+    @BindView(R.id.previous_button) Button prevButton;
     private int i;
 
     public StepDetailFragment() {}
@@ -54,11 +57,7 @@ public class StepDetailFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
-
-        stepDescriptionTv = rootView.findViewById(R.id.step_description_tv);
-        mPlayerView = rootView.findViewById(R.id.step_player_view);
-        nextButton = rootView.findViewById(R.id.next_button);
-        prevButton = rootView.findViewById(R.id.previous_button);
+        ButterKnife.bind(this, rootView);
 
         Bundle bundle = getArguments();
 

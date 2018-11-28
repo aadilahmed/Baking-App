@@ -22,7 +22,11 @@
         <activity android:name=".DetailActivity" />
         <activity android:name=".StepDetailActivity" />
 
-        <receiver android:name=".RecipeWidgetProvider">
+        <service
+            android:name=".widget.RecipeWidgetRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver android:name=".widget.RecipeWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

@@ -1,11 +1,15 @@
-package com.example.aadil.bakingapp;
+package com.example.aadil.bakingapp.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+
+import com.example.aadil.bakingapp.R;
+import com.example.aadil.bakingapp.model.Recipe;
 
 /**
  * Implementation of App Widget functionality.
@@ -14,16 +18,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-        // Construct the RemoteViews object
-        /*RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
-
-        Intent intent = new Intent(context, DetailActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-        views.setOnClickPendingIntent(R.id.recipe_widget_icon, pendingIntent);
-
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);*/
     }
 
     @Override

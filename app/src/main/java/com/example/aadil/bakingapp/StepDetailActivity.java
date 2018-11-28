@@ -37,15 +37,6 @@ public class StepDetailActivity extends AppCompatActivity {
                 .commit();
     }
 
-    /*@Override
-    public void onBackPressed() {
-        if (mViewPager.getCurrentItem() == 0) {
-            super.onBackPressed();
-        } else {
-            mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
-        }
-    }*/
-
     private class StepDetailPagerAdapter extends FragmentStatePagerAdapter {
         private ArrayList<Step> mStepList;
         public StepDetailPagerAdapter(FragmentManager fm, ArrayList<Step> stepList) {

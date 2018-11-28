@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +16,10 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.aadil.bakingapp.model.Ingredient;
 import com.example.aadil.bakingapp.model.Recipe;
+import com.example.aadil.bakingapp.widget.RecipeWidgetProvider;
+import com.example.aadil.bakingapp.widget.RecipeWidgetRemoteViewsService;
 
 import java.util.ArrayList;
 
@@ -53,6 +57,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecipeAdapter.ViewHolder viewHolder, int position) {
         final Recipe recipe = recipeList.get(position);
+        final ArrayList<Ingredient> ingredients = recipe.getIngredients();
+
         String recipeTitle;
 
         if(position == 0) {
@@ -79,8 +85,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-                RemoteViews views = new RemoteViews(context.getPackageName(),
-                        R.layout.recipe_widget_provider);
+                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
@@ -89,7 +94,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
-                views.setOnClickPendingIntent(R.id.recipe_widget_icon, pendingIntent);
+                Intent widgetIntent = new Intent(context, RecipeWidgetRemoteViewsService.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("ingredientList", ingredients);
+                widgetIntent.putExtra("bundle", bundle);
+                views.setRemoteAdapter(R.id.widget_ingredient_list, widgetIntent);
+
+                views.setPendingIntentTemplate(R.id.widget_ingredient_list, pendingIntent);
                 ComponentName thisWidget = new ComponentName(context, RecipeWidgetProvider.class);
                 appWidgetManager.updateAppWidget(thisWidget, views);
                 context.startActivity(intent);

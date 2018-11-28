@@ -1,13 +1,11 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/recipe_widget_icon"
+    <ListView
+        android:id="@+id/widget_ingredient_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:src="@drawable/icons8_double_chocolate_cake_64"/>
-
-</LinearLayout>
+        android:layout_gravity="center"/>
+</FrameLayout>

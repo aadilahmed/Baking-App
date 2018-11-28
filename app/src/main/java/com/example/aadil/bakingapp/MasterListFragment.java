@@ -20,17 +20,20 @@ import com.example.aadil.bakingapp.model.Step;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MasterListFragment extends Fragment{
     private String name;
-    private TextView recipeTitleTv;
-    private ImageView recipeBackdropIv;
+    @BindView(R.id.recipe_detail_title) TextView recipeTitleTv;
+    @BindView(R.id.recipe_backdrop) ImageView recipeBackdropIv;
     private ArrayList<Ingredient> ingredients;
-    private RecyclerView mIngredientRV;
+    @BindView(R.id.rv_ingredient_list) RecyclerView mIngredientRV;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private ArrayList<Step> steps;
-    private RecyclerView mStepRV;
+    @BindView(R.id.rv_step_list) RecyclerView mStepRV;
     private RecyclerView.Adapter mStepAdapter;
     private RecyclerView.LayoutManager mStepLayoutManager;
 
@@ -46,6 +49,8 @@ public class MasterListFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_master_list, container, false);
 
+        ButterKnife.bind(this, rootView);
+
         Bundle bundle = getArguments();
 
         if(bundle != null) {
@@ -55,8 +60,6 @@ public class MasterListFragment extends Fragment{
             ingredients = recipe.getIngredients();
 
             name = recipe.getName();
-
-            recipeBackdropIv = rootView.findViewById(R.id.recipe_backdrop);
 
             switch(name) {
                 case "Nutella Pie":
@@ -78,10 +81,8 @@ public class MasterListFragment extends Fragment{
                     break;
             }
 
-            recipeTitleTv = rootView.findViewById(R.id.recipe_detail_title);
             recipeTitleTv.setText(name);
 
-            mIngredientRV = rootView.findViewById(R.id.rv_ingredient_list);
             mIngredientRV.setHasFixedSize(true);
 
             mLayoutManager = new LinearLayoutManager(getContext());
@@ -93,7 +94,6 @@ public class MasterListFragment extends Fragment{
             /*-----------------------------------------------------------------*/
             steps = recipe.getSteps();
 
-            mStepRV = rootView.findViewById(R.id.rv_step_list);
             mStepRV.setHasFixedSize(true);
 
             mStepLayoutManager = new LinearLayoutManager(getContext());
