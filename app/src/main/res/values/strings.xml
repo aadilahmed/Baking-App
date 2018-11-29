@@ -13,4 +13,5 @@
     <string name="cheescake_title">Cheesecake</string>
     <string name="no_connection_toast">
         No network connectivity. Please connect to the internet and restart the app.</string>
+    <string name="pref_file_key">preferenceFile</string>
 </resources>

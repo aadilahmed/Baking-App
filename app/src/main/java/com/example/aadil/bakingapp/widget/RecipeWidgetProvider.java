@@ -6,10 +6,17 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.aadil.bakingapp.R;
+import com.example.aadil.bakingapp.model.Ingredient;
 import com.example.aadil.bakingapp.model.Recipe;
+
+import java.util.ArrayList;
 
 /**
  * Implementation of App Widget functionality.

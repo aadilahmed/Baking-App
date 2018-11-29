@@ -6,7 +6,7 @@
     android:background="@color/background">
 
     <TextView
-        android:id="@+id/ingredient_widget_item"
+        android:id="@+id/ingredient_widget_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"

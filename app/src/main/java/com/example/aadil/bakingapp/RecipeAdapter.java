@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -58,6 +59,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(@NonNull RecipeAdapter.ViewHolder viewHolder, int position) {
         final Recipe recipe = recipeList.get(position);
         final ArrayList<Ingredient> ingredients = recipe.getIngredients();
+        final Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("ingredientList", ingredients);
 
         String recipeTitle;
 
@@ -84,25 +87,29 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("recipe", recipe);
+
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                intent.putExtra("recipe", recipe);
-
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-
                 Intent widgetIntent = new Intent(context, RecipeWidgetRemoteViewsService.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("ingredientList", ingredients);
+
                 widgetIntent.putExtra("bundle", bundle);
+                int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, RecipeWidgetProvider.class));
+                widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+                widgetIntent.setData(Uri.parse(widgetIntent.toUri(Intent.URI_INTENT_SCHEME)));
                 views.setRemoteAdapter(R.id.widget_ingredient_list, widgetIntent);
 
+                PendingIntent pendingIntent = PendingIntent.getService(context, 0, widgetIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
                 views.setPendingIntentTemplate(R.id.widget_ingredient_list, pendingIntent);
+
                 ComponentName thisWidget = new ComponentName(context, RecipeWidgetProvider.class);
                 appWidgetManager.updateAppWidget(thisWidget, views);
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_ingredient_list);
+
                 context.startActivity(intent);
             }
         });
