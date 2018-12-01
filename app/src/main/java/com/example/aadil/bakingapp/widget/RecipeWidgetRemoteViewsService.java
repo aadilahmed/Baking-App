@@ -9,10 +9,8 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.aadil.bakingapp.R;
-import com.example.aadil.bakingapp.model.Ingredient;
 import com.example.aadil.bakingapp.provider.IngredientContract;
 
-import java.util.ArrayList;
 
 import static com.example.aadil.bakingapp.provider.IngredientContract.BASE_CONTENT_URI;
 import static com.example.aadil.bakingapp.provider.IngredientContract.PATH_INGREDIENTS;
@@ -29,7 +27,6 @@ class RecipeRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory 
     private Context context;
     Cursor cursor;
     private Intent intent;
-    private ArrayList<Ingredient> ingredientList = new ArrayList<>();
     private int appWidgetId;
 
     public RecipeRemoteViewsFactory (Context context, Intent intent) {

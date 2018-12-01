@@ -92,6 +92,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 context.getContentResolver().delete(IngredientContract.IngredientEntry.CONTENT_URI,
                         null, null);
 
+                //Cite: https://stackoverflow.com/questions/18664835/bulk-inserting-using-an-array-of-contentvalues
                 ArrayList<ContentProviderOperation> operations = new ArrayList<>();
                 for(int i = 0; i < ingredients.size(); i++) {
                     double quantity = ingredients.get(i).getQuantity();
