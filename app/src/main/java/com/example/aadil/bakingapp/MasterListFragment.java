@@ -10,10 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.aadil.bakingapp.model.Ingredient;
 import com.example.aadil.bakingapp.model.Recipe;
 import com.example.aadil.bakingapp.model.Step;
@@ -26,7 +24,6 @@ import butterknife.ButterKnife;
 public class MasterListFragment extends Fragment{
     private String name;
     @BindView(R.id.recipe_detail_title) TextView recipeTitleTv;
-    @BindView(R.id.recipe_backdrop) ImageView recipeBackdropIv;
     private ArrayList<Ingredient> ingredients;
     @BindView(R.id.rv_ingredient_list) RecyclerView mIngredientRV;
     private RecyclerView.Adapter mAdapter;
@@ -60,27 +57,6 @@ public class MasterListFragment extends Fragment{
             ingredients = recipe.getIngredients();
 
             name = recipe.getName();
-
-            switch(name) {
-                case "Nutella Pie":
-                    Glide.with(this).load(R.drawable.no_bake_nutella_pie_text1)
-                            .into(recipeBackdropIv);
-                    break;
-                case "Brownies":
-                    Glide.with(this).load(R.drawable.chocolate_beetroot_brownies)
-                            .into(recipeBackdropIv);
-                    break;
-                case "Yellow Cake":
-                    Glide.with(this).load(R.drawable.yellow_cake)
-                            .into(recipeBackdropIv);
-                    break;
-                case "Cheesecake":
-                    Glide.with(this).load(R.drawable.finished_product_cheesecake)
-                            .into(recipeBackdropIv);
-                default:
-                    break;
-            }
-
             recipeTitleTv.setText(name);
 
             mIngredientRV.setHasFixedSize(true);
@@ -91,7 +67,6 @@ public class MasterListFragment extends Fragment{
             mAdapter = new IngredientAdapter(ingredients);
             mIngredientRV.setAdapter(mAdapter);
 
-            /*-----------------------------------------------------------------*/
             steps = recipe.getSteps();
 
             mStepRV.setHasFixedSize(true);

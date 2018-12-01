@@ -11,17 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/recipe_backdrop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"/>
-
         <TextView
             android:id="@+id/recipe_detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/recipe_backdrop"
+            app:layout_constraintBottom_toTopOf="@id/ingredient_title"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="@dimen/recipe_detail_title_size"
             android:textColor="@color/text_color"
@@ -42,7 +36,7 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_backdrop" />
+            app:layout_constraintTop_toBottomOf="@+id/recipe_detail_title" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_ingredient_list"

@@ -1,26 +1,25 @@
 package com.example.aadil.bakingapp;
 
-import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
+import android.content.ContentProviderOperation;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.OperationApplicationException;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.aadil.bakingapp.model.Ingredient;
 import com.example.aadil.bakingapp.model.Recipe;
-import com.example.aadil.bakingapp.widget.RecipeWidgetProvider;
-import com.example.aadil.bakingapp.widget.RecipeWidgetRemoteViewsService;
+import com.example.aadil.bakingapp.provider.IngredientContract;
+import com.example.aadil.bakingapp.widget.UpdateRecipeService;
 
 import java.util.ArrayList;
 
@@ -90,27 +89,31 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("recipe", recipe);
 
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
+                context.getContentResolver().delete(IngredientContract.IngredientEntry.CONTENT_URI,
+                        null, null);
 
-                Intent widgetIntent = new Intent(context, RecipeWidgetRemoteViewsService.class);
+                ArrayList<ContentProviderOperation> operations = new ArrayList<>();
+                for(int i = 0; i < ingredients.size(); i++) {
+                    double quantity = ingredients.get(i).getQuantity();
+                    String measure = ingredients.get(i).getMeasure();
+                    String ingredient = ingredients.get(i).getIngredient();
 
-                widgetIntent.putExtra("bundle", bundle);
-                int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, RecipeWidgetProvider.class));
-                widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-                widgetIntent.setData(Uri.parse(widgetIntent.toUri(Intent.URI_INTENT_SCHEME)));
-                views.setRemoteAdapter(R.id.widget_ingredient_list, widgetIntent);
-
-                PendingIntent pendingIntent = PendingIntent.getService(context, 0, widgetIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-
-                views.setPendingIntentTemplate(R.id.widget_ingredient_list, pendingIntent);
-
-                ComponentName thisWidget = new ComponentName(context, RecipeWidgetProvider.class);
-                appWidgetManager.updateAppWidget(thisWidget, views);
-                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_ingredient_list);
-
-                context.startActivity(intent);
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(IngredientContract.IngredientEntry.COLUMN_QUANTITY, quantity);
+                    contentValues.put(IngredientContract.IngredientEntry.COLUMN_MEASURE, measure);
+                    contentValues.put(IngredientContract.IngredientEntry.COLUMN_INGREDIENT, ingredient);
+                    operations.add(ContentProviderOperation.newInsert(IngredientContract.IngredientEntry.CONTENT_URI)
+                            .withValues(contentValues).build());
+                }
+                try {
+                    context.getContentResolver().applyBatch(IngredientContract.AUTHORITY, operations);
+                    UpdateRecipeService.startActionUpdateRecipeWidgets(context);
+                    context.startActivity(intent);
+                } catch (OperationApplicationException e) {
+                    e.printStackTrace();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

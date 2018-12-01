@@ -26,6 +26,8 @@
             android:name=".widget.RecipeWidgetRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <service android:name=".widget.UpdateRecipeService" />
+
         <receiver android:name=".widget.RecipeWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -35,6 +37,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/recipe_widget_provider_info" />
         </receiver>
+
+        <provider
+            android:name="com.example.aadil.bakingapp.provider.RecipeContentProvider"
+            android:authorities="com.example.aadil.bakingapp"
+            android:exported="true"/>
     </application>
 
 </manifest>
