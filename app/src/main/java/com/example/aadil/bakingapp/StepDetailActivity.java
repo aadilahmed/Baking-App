@@ -10,13 +10,15 @@ public class StepDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_detail);
 
-        StepDetailFragment stepFragment = new StepDetailFragment();
+        if(savedInstanceState == null) {
+            StepDetailFragment stepFragment = new StepDetailFragment();
 
-        Bundle bundle = getIntent().getExtras();
-        stepFragment.setArguments(bundle);
+            Bundle bundle = getIntent().getExtras();
+            stepFragment.setArguments(bundle);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.step_detail_fragment, stepFragment)
-                .commit();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.step_detail_fragment, stepFragment)
+                    .commit();
+        }
     }
 }

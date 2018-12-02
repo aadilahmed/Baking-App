@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
 
@@ -43,19 +43,14 @@ public class StepDetailFragment extends Fragment{
 
     public StepDetailFragment() {}
 
-    public static StepDetailFragment newInstance(int position) {
-        StepDetailFragment stepFragment = new StepDetailFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putInt("position", position);
-        stepFragment.setArguments(bundle);
-
-        return stepFragment;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if(savedInstanceState != null) {
+            position = savedInstanceState.getLong("position");
+            playWhenReady = savedInstanceState.getBoolean("playWhenReady");
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
         ButterKnife.bind(this, rootView);
 
@@ -135,6 +130,13 @@ public class StepDetailFragment extends Fragment{
         return rootView;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("position", simpleExoPlayer.getCurrentPosition());
+        outState.putBoolean("playWhenReady", simpleExoPlayer.getPlayWhenReady());
+    }
+
     private MediaSource buildMediaSource(Uri uri) {
         return new ExtractorMediaSource.Factory(
                 new DefaultHttpDataSourceFactory("exoplayer-codelab")).
@@ -144,25 +146,33 @@ public class StepDetailFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-        initializePlayer();
+        if(Util.SDK_INT > 23) {
+            initializePlayer();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        initializePlayer();
+        if((Util.SDK_INT <= 23 || simpleExoPlayer == null)) {
+            initializePlayer();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        releasePlayer();
+        if(Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        releasePlayer();
+        if(Util.SDK_INT >= 24) {
+            releasePlayer();
+        }
     }
 
     private void initializePlayer() {
