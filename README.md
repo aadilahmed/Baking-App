@@ -7,3 +7,9 @@ Concepts Learned:
 - How to create widgets and update them using content providers
 - Using Exoplayer to display videos in app
 - Using instrumentation tests to test UI
+
+# Screenshots
+
+<img src="/Screenshots/Screenshot_1546564140.png" width="400">
+<img src="/Screenshots/Screenshot_1546564154.png" width="400">
+<img src="/Screenshots/Screenshot_1546564173.png" width="400">
