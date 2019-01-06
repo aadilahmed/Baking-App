@@ -8,9 +8,16 @@ Concepts Learned:
 - Using Exoplayer to display videos in app
 - Using instrumentation tests to test UI
 
-# Screenshots
+## Screenshots
 
 <img src="/Screenshots/Screenshot_1546564140.png" width="400">
 <img src="/Screenshots/Screenshot_1546564173.png" width="400">
 <img src="/Screenshots/Screenshot_1546564154.png" width="400">
 <img src="/Screenshots/Screenshot_1546800933.png" width="400">
+
+
+## Libraries Used
+* ExoPlayer
+* Glide
+* ButterKnife
+* Espresso
