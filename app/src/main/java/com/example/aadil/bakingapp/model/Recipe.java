@@ -81,7 +81,6 @@ public class Recipe implements Parcelable{
         return recipeList;
     }
 
-
     public String getName() {
         return name;
     }
